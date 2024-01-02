@@ -1,0 +1,54 @@
+<!--{% load static %}-->
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <title>{{ document.title }}</title>-->
+<!--    <link rel="stylesheet" href="{% static 'markdownx/admin/css/markdownx.css' %}">-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>{{ document.title }}</h1>-->
+<!--&lt;!&ndash;    <div class="markdownx">{{ document.content }}</div>&ndash;&gt;-->
+<!--    <div class="markdownx">{{ content_markdown|safe }}</div>-->
+<!--    <a href="{% url 'document_edit' document.id %}">Edit</a>-->
+<!--    <form method="post" action="{% url 'document_delete' document.id %}">-->
+<!--        {% csrf_token %}-->
+<!--        <button type="submit">Delete</button>-->
+<!--    </form>-->
+<!--    <script src="{% static 'markdownx/js/markdownx.js' %}"></script>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 导入CodeMirror的样式文件 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
+    <!-- 导入CodeMirror的JavaScript文件 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/yaml/yaml.min.js"></script>
+</head>
+<body>
+    <h1>{{ document.title }}</h1>
+
+    <div class="markdownx">{{ content_markdown|safe }}</div>  <!-- 使用safe过滤器确保HTML内容可以被正确渲染 -->
+
+    <h2>YAML Content</h2>
+    <pre>
+        <code class="yaml">
+            {% for key, value in yaml_data.items %}
+                {{ key }}: {{ value|safe }}
+            {% endfor %}
+        </code>
+    </pre>
+
+    <!-- 使用CodeMirror展示代码框 -->
+    <textarea id="yaml-code">{{ document.yaml_data }}</textarea>
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById("yaml-code"), {
+            mode: "yaml",
+            theme: "default",
+            lineNumbers: true
+        });
+    </script>
+</body>
+</html>

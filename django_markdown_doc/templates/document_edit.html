@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if form.instance.pk %}Edit Document{% else %}New Document{% endif %}</title>
+    <link rel="stylesheet" href="{% static 'markdownx/admin/css/markdownx.css' %}">
+</head>
+<body>
+    <h1>{% if form.instance.pk %}Edit Document{% else %}New Document{% endif %}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+    <script src="{% static 'markdownx/markdownx.js' %}"></script>
+</body>
+</html>
